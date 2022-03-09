@@ -1,8 +1,7 @@
-const User = require('../models/userModels')
+const User = require('../models/userModel')
 const Product = require('../models/productModel');
 
 async function getUser(req, res, next) {
-  console.log(req.decoded)
     let user;
     try {
         user = await User.findById(req.decoded._id);

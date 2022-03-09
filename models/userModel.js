@@ -1,5 +1,10 @@
 const mongoose = require('mongoose')
 
+const ROLE ={
+  ADMIN: 'admin',
+  CUSTOMER: 'customer'
+}
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -21,7 +26,7 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         required: true,
-        default: USER
+        default: ROLE.CUSTOMER
     },
     joinDate: {
         type: Date,
@@ -34,3 +39,5 @@ const userSchema = new mongoose.Schema({
         default: [],  
       }
 })
+
+module.exports = mongoose.model("User", userSchema);
