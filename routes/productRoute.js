@@ -58,7 +58,7 @@ router.put('/:id', getProduct, async (req, res, next) => {
 //Deleting One
 router.delete('/:id', getProduct, async (req, res, next) => {
     if (req.user._id !== res.product.creator)
-        res.status(400).json({ msg: "You are not that guy pal." })
+        res.status(400).json({ msg: "You do not have the proper authentication for that" })
     try {
     await res.product.remove();
     res.json({ message: "Product Deleted" });
