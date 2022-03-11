@@ -4,7 +4,7 @@ const Product = require('../models/productModel');
 async function getUser(req, res, next) {
     let user;
     try {
-        user = await User.findById(req.decoded._id);
+        user = await User.findById(req.params.id);
 
     if (!user) res.status(404).json({ message: "Could not find user" });
     } catch (error) {
