@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getUser } = require('../middleware/finders')
 
-// GET all users
+// GET all users (works)
 router.get("/", async (req, res) => {
     try {
       const users = await User.find();
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     }
   });
   
-// GET one user
+// GET one user (works)
 router.get('/:id', getUser, (req, res, next) => {
 res.send(res.user);
 });
@@ -32,7 +32,7 @@ if (await bcrypt.compare(password, user.password)) {
         JSON.stringify(user),
         process.env.JWT_TOKEN_SECRET
     );
-    res.status(201).json({ jwt: access_token });
+    res.status(201).json({ msg:"signed in successfully!", jwt: access_token });
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
@@ -41,7 +41,7 @@ if (await bcrypt.compare(password, user.password)) {
 }
 });
 
-// REGISTER user
+// REGISTER user (works)
 router.post("/", async (req, res, next) => {
 const { name, email, contact, password } = req.body;
 
@@ -72,7 +72,7 @@ try {
 }
 });
   
-// UPDATE a user
+// UPDATE a user (works)
 router.put("/:id", getUser, async (req, res, next) => {
 const { name, contact, password, role } = req.body;
 if (name) res.user.name = name;

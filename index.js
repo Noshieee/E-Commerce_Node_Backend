@@ -24,10 +24,4 @@ app.get('/', (req, res) => {
     res.send('Home Page')
 })
 
-app.get('/dashboard',authUser , (req, res) => {
-    res.send('Dashboard Page')
-})
-
-
-
 app.listen(process.env.PORT||4422, () => console.log('Server running'))

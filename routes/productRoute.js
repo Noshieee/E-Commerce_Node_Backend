@@ -1,7 +1,8 @@
 const express = require('express');
+const ROLE = require('../models/userModel')
 const Product = require('../models/productModel')
 const router = express.Router();
-// const auth = require('../middleware/auth')
+const { authRole, authUser } = require('../middleware/auth')
 const { getProduct } = require('../middleware/finders')
 
 // Getting All
@@ -20,7 +21,7 @@ router.get('/:id', getProduct, (req, res, next) => {
 });
 
 //Creating A Product
-router.post('/', async (req, res, next) => {
+router.post('/', [ authUser, authRole(ROLE.ADMIN) ], async (req, res, next) => {
     const {title ,price ,category, img} = req.body
     const product = new Product({
         title,
@@ -38,7 +39,7 @@ router.post('/', async (req, res, next) => {
 });
 
 //Updating A Product
-router.put('/:id', getProduct, async (req, res, next) => {
+router.put('/:id', [ getProduct, authUser, authRole(ROLE.ADMIN) ], async (req, res, next) => {
     if (req.user._id !== res.product.creator)
         res.status(400).json({ msg: "You are not that guy pal" })
     const {title, price, category, img, description} = req.body;
@@ -56,7 +57,7 @@ router.put('/:id', getProduct, async (req, res, next) => {
 });
 
 //Deleting One
-router.delete('/:id', getProduct, async (req, res, next) => {
+router.delete('/:id',  [ getProduct, authUser, authRole(ROLE.ADMIN) ], async (req, res, next) => {
     if (req.user._id !== res.product.creator)
         res.status(400).json({ msg: "You do not have the proper authentication for that" })
     try {
