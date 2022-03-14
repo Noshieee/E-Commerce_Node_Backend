@@ -74,10 +74,9 @@ try {
   
 // UPDATE a user
 router.put("/:id", getUser, async (req, res, next) => {
-const { name, contact, password, about, role } = req.body;
+const { name, contact, password, role } = req.body;
 if (name) res.user.name = name;
 if (contact) res.user.contact = contact;
-if (about) res.user.about = about;
 if (password) {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
