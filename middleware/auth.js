@@ -12,9 +12,9 @@ function authUser(req, res, next) {
       req.user = user;
       next();
     });
-}
+};
 
-function authRole(role){
+function authRole(role) {
   return (req, res, next) => {
     if (req.user.role !== role) {
       res.status(401)
@@ -24,4 +24,4 @@ function authRole(role){
   }
 }
 
-module.exports = { authUser, authRole };
+module.exports = { authUser, authRole  };
