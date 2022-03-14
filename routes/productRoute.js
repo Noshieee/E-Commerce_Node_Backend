@@ -1,7 +1,8 @@
 const express = require('express');
+const ROLE = require('../models/userModel')
 const Product = require('../models/productModel')
 const router = express.Router();
-// const auth = require('../middleware/auth')
+const { authRole, authUser } = require('../middleware/auth')
 const { getProduct } = require('../middleware/finders')
 
 // Getting All
@@ -20,7 +21,7 @@ router.get('/:id', getProduct, (req, res, next) => {
 });
 
 //Creating A Product
-router.post('/', async (req, res, next) => {
+router.post('/', [ authUser, authRole(ROLE.ADMIN) ], async (req, res, next) => {
     const {title ,price ,category, img} = req.body
     const product = new Product({
         title,

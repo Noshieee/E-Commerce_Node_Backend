@@ -12,6 +12,16 @@ function authUser(req, res, next) {
       req.decoded = decoded;
       next();
     });
+};
+
+function authRole(role) {
+  return (req, res, next) => {
+    if (req.user.role !== role) {
+      res.status(401)
+      return res.send('You are not that guy pal')
+    }
+    next()
+  }
 }
 
-module.exports = authUser;
+module.exports = { authUser, authRole  };
