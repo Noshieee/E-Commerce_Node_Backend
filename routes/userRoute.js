@@ -32,7 +32,7 @@ if (await bcrypt.compare(password, user.password)) {
         JSON.stringify(user),
         process.env.JWT_TOKEN_SECRET
     );
-    res.status(201).json({ msg:"signed in successfully!", jwt: access_token });
+    res.status(201).json({ jwt: access_token });
     } catch (error) {
     res.status(500).json({ message: error.message });
     }

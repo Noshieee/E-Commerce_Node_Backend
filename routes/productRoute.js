@@ -27,7 +27,7 @@ router.post('/', [ authUser, authRole(ROLE.ADMIN) ], async (req, res, next) => {
         title,
         price,
         category,
-        creator: req.decoded._id,
+        creator: req.user.id,
         img
     });
   try {

@@ -18,7 +18,7 @@ function authRole(role) {
   return (req, res, next) => {
     if (req.user.role !== role) {
       res.status(401)
-      return res.send('You are not that guy pal')
+      return res.send('Not allowed')
     }
     next()
   }
