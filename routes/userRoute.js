@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getUser } = require('../middleware/finders')
+const nodemailer = require('nodemailer')
 
 // GET all users (works)
 router.get("/", async (req, res) => {
@@ -57,6 +58,28 @@ const user = new User({
 
 try {
     const newUser = await user.save();
+    const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASS
+  }
+});
+
+const mailOptions = {
+  from: 'enoshelliott14@gmail.com',
+  to: email,
+  subject: 'Signup Successful!',
+  text: `Thank you ${name}, your Signup was successful. `
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 
     try {
     const access_token = jwt.sign(
@@ -94,8 +117,33 @@ try {
 
 // DELETE a user
 router.delete('/:id', getUser, async (req, res, next) => {
+    const { name, email } = res.user
 try {
     await res.user.remove();
+
+    const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASS
+  }
+});
+
+const mailOptions = {
+  from: 'enoshelliott14@gmail.com',
+  to: email,
+  subject: 'Removed account Successfully!',
+  text: `Your account has been removed succesfully, thank you ${name} for your loyalty thus far.`
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
     res.json({ message: "Deleted user" });
 } catch (error) {
     res.status(500).json({ message: error.message });

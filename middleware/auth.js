@@ -14,9 +14,9 @@ function authUser(req, res, next) {
     });
 };
 
-function authRole(role) {
+function authRole() {
   return (req, res, next) => {
-    if (req.user.role !== role) {
+    if (req.user.role !== "admin") {
       res.status(401)
       return res.send('Not allowed')
     }
