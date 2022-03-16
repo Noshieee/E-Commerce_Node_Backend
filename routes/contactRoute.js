@@ -3,6 +3,10 @@ const router = express.Router()
 
 const nodemailer = require('nodemailer');
 
+router.get('/', (req,res) => {
+  res.send('Contact Page')
+})
+
 router.post('/', async (req, res) => {
     const {email, name, message} = req.body
     const transporter = nodemailer.createTransport({
@@ -26,7 +30,12 @@ router.post('/', async (req, res) => {
       } else {
         console.log('Email sent: ' + info.response);
       }
-    });
+      try{   
+        res.json({ message: `Thank you ${ name }, your message was sent` });
+        } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+    })
 })
 
 module.exports = router
