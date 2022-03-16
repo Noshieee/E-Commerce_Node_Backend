@@ -18,10 +18,14 @@ router.post('/', async (req, res) => {
     });
     
     const mailOptions = {
-      from: email,
-      to: 'enoshelliott.ee@gmail.com',
+      from: process.env.EMAIL,
+      to: 'enoshelliott14@gmail.com',
       subject: `${name} wants to contact you!`,
-      text: message
+      text: `
+      ${message}
+
+      contact ${name} back at ${email}
+      `
     };
     
     transporter.sendMail(mailOptions, function(error, info){
