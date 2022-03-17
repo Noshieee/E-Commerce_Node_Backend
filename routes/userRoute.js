@@ -67,7 +67,7 @@ try {
 });
 
 const mailOptions = {
-  from: 'enoshelliott14@gmail.com',
+  from: process.env.EMAIL,
   to: email,
   subject: 'Signup Successful!',
   text: `Thank you ${name}, your Signup was successful. `
