@@ -109,6 +109,28 @@ if (role) res.user.role = role;
 
 try {
     const updatedUser = await res.user.save();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASS
+      }
+    });
+    
+    const mailOptions = {
+      from: 'enoshelliott14@gmail.com',
+      to: res.user.email,
+      subject: 'Updated your account Successfully!',
+      text: `Thank you ${res.user.name}, we have updated your account successfully. `
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+  })
     res.status(201).send(updatedUser);
 } catch (error) {
     res.status(400).json({ message: error.message });
@@ -116,7 +138,7 @@ try {
 });
 
 // DELETE a user
-router.delete('/:id', getUser, async (req, res, next) => {
+router.delete('/:id', getUser, async (req, res) => {
     const { name, email } = res.user
 try {
     await res.user.remove();
