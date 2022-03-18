@@ -118,7 +118,7 @@ try {
     });
     
     const mailOptions = {
-      from: 'enoshelliott14@gmail.com',
+      from: process.env.EMAIL,
       to: res.user.email,
       subject: 'Updated your account Successfully!',
       text: `Thank you ${res.user.name}, we have updated your account successfully. `
@@ -152,10 +152,10 @@ try {
 });
 
 const mailOptions = {
-  from: 'enoshelliott14@gmail.com',
+  from: process.env.EMAIL,
   to: email,
   subject: 'Removed account Successfully!',
-  text: `Your account has been removed succesfully, thank you ${name} for your loyalty thus far.`
+  text: `Your account has been removed succesfully, thank you ${name}, for your loyalty thus far.`
 };
 
 transporter.sendMail(mailOptions, function(error, info){
