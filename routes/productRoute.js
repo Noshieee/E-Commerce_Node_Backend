@@ -21,10 +21,11 @@ router.get('/:id', getProduct, (req, res) => {
 
 //Creating A Product
 router.post('/', authUser, authRole(), async (req, res) => {
-    const {title ,price ,category, img} = req.body
+    const {title ,price ,description, category, img} = req.body
     const product = new Product({
         title,
         price,
+        description,
         category,
         creator: req.user._id,
         img
